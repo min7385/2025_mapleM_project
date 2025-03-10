@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메이플스토리M 캐릭터 조회</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        #result { margin-top: 20px; white-space: pre-wrap; text-align: left; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <h1>메이플스토리M 캐릭터 조회</h1>
+    <button onclick="fetchCharacter()">캐릭터 조회</button>
+    <div id="result"></div>
+
+    <script>
+        function fetchCharacter() {
+            fetch("https://openapi.nexon.com/v1/maplestorym/characters?character_name=꼬마윈브&world_name=엘리시움", {
+                method: "GET",
+                headers: {
+                    "x-nxopen-api-key": "test_48f1edee9673d86e745e8b581a27b23387bf78764bb06fc2c99559d08939eae8efe8d04e6d233bd35cf2fabdeb93fb0d"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("result").textContent = "데이터를 불러오는 중 오류가 발생했습니다.";
+            });
+        }
+    </script>
+
+</body>
+</html>
